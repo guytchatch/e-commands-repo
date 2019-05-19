@@ -26,7 +26,7 @@ public class Client {
 	//Identifiant du client
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(notes = "Code du client généré par la BD")
+    @ApiModelProperty(notes = "Code du client généré par la BD", hidden=true)
 	private Integer code;
 	
 	//Nom du client

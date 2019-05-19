@@ -31,7 +31,7 @@ public class Swagger2Config {
             .contact(new Contact("Landry TCHATCH", "www.leadware.net", "ltchatch@leadware.net"))
             .license("leadware 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-            .version("1.0.0")
+            .version("0.0.1-SNAPSHOT")
             .build();
     }
 }

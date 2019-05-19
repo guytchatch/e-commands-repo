@@ -20,6 +20,7 @@ import ecommandes.domain.Client;
 @DataJpaTest
 public class ClientRepositoryIntegrationTest {
 	
+	//Injection du ClientRepository
 	@Autowired
 	private ClientRepository clientRepository;
 	

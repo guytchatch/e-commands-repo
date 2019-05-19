@@ -1,7 +1,5 @@
 package ecommandes.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +55,7 @@ public class ClientRestController {
 	 * @param code code du client
 	 * @return client trouvé
 	 */
-	@ApiOperation(value = "Recherche client", response = ResponseEntity.class)
+	@ApiOperation(value = "Recherche client", response = Client.class)
 	@ApiResponses(value = {
 		    @ApiResponse(code = 200, message = "Recherche du client avec succes"),
 		    @ApiResponse(code = 401, message = "Vous n'avez pas le droit de voir la ressource"),
