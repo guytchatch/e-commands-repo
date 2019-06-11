@@ -1,6 +1,11 @@
 package ecommandes.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -129,5 +134,49 @@ public class ProductServiceImpl implements ProductService {
 		
 		//Valeur de retour
 		return quantity;
+	}
+	@Override
+	public List<ProductDto> getProducts() {
+		// TODO Auto-generated method stub
+		
+		//liste des produits
+		List<Product> productList = productRepository.findAll();
+		
+		//Initialisation d'une liste de ProductDto
+		List<ProductDto> productDtoList = new ArrayList();
+		
+		//On parcourt la liste
+		for(Product product : productList) {
+			
+			//Variable contenant la quantité en stock
+			int stockQuantity = 0;
+			
+			//Liste des productStock d'un product
+			Set<ProductStock> productStockList = product.getProductStockList();
+			
+			//Parcourt de la liste des stocks
+			for(ProductStock productStock: productStockList) {
+				
+				//On incrémente la quantité totale
+				stockQuantity += productStock.getQuantity(); 
+			}
+			
+			//On instancie un productDto
+			ProductDto productDto= new ProductDto(product.getCode(), product.getLabel(),
+					product.getPrice(), stockQuantity);
+			
+			//On ajoute le productDto à la liste
+			productDtoList.add(productDto);
+		}
+		
+		//On retourne la liste
+		return productDtoList;
+	}
+	@Override
+	public Product getProduct(Integer code) {
+		// TODO Auto-generated method stub
+		System.out.println("++++++++++++++++++++++++++On est avant oooooooooooooo++++++++++++++++");
+		return productRepository.findById(code).get();
+
 	}	
 }

@@ -78,6 +78,19 @@ public class ProductServiceImplIntegrationTest {
 		product = productRepository.save(product);
 	}
 	
+	/**
+	 * Test du service d'obtention d'un produit
+	 */
+	@Test
+	public void getProductByCode() {
+		
+		Product product = productService.getProduct(productService.getProducts().get(0).getCode());
+		
+		System.out.println("tchatchhhhhhhhhhhhhhh" + product + "tchatchhhhhhhhhhh");
+		
+		assertThat(product.getCode()).isGreaterThan(0);
+	}
+	
 	@Test
 	public void refluyingAndDelivering() {
 

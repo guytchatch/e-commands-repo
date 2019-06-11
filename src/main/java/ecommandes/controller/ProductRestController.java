@@ -1,9 +1,11 @@
 package ecommandes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ecommandes.domain.Client;
 import ecommandes.domain.Product;
 import ecommandes.domain.ProductStock;
+import ecommandes.service.ProductDto;
 import ecommandes.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,10 +47,23 @@ public class ProductRestController {
 	 */
 	@ApiOperation(value = "Enregistrer un nouveau produit", response = Product.class)
 	@PostMapping
-	public ResponseEntity<Product> postProduct(@RequestBody Product product) {
+	public Product postProduct(@ApiParam(value = "Produit à créer", required = true) @RequestBody Product product) {
 		
 		//appel du service de cdréation d'un produit
-		return ResponseEntity.ok(productService.createProduct(product));
+		return productService.createProduct(product);
+	}
+	
+	/**
+	 * Point Rest d'obtention d'un produit
+	 * @param code
+	 * @return
+	 */
+	@ApiOperation(value = "Rechercher un produit à partir de son code")
+	@GetMapping(path = "/{code}")
+	public Product getProduct(@ApiParam(value = "code du produit à rechercher", required = true) @PathVariable("code") int code) {
+		
+		//Appel du service 
+		return productService.getProduct(code);
 	}
 	
 	/**
@@ -57,7 +72,7 @@ public class ProductRestController {
 	 */
 	@ApiOperation(value = "Supprimer un produit")
 	@DeleteMapping("/{code}")
-	public void deleteProduct(@PathVariable("code") int code) {
+	public void deleteProduct( @ApiParam(value = "code du produit à supprimer", required = true)@PathVariable("code") int code) {
 	
 		//Suppression du produit
 		productService.deleteProduct(code);
@@ -74,12 +89,12 @@ public class ProductRestController {
 			path="/{code}",
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public  ResponseEntity<Product> productStockRefueling(
+	public  Product productStockRefueling(
 				@ApiParam(value = "code du produit à ravitailler", required = true) @PathVariable("code") int productCode,
 				@ApiParam(value = "Objet productStock enregistré en BD", required = true) @RequestBody ProductStock productStock ) {
 		
 		//Appel du service de ravitaillement
-		return ResponseEntity.ok(productService.productStockRefueling(productCode, productStock));
+		return productService.productStockRefueling(productCode, productStock);
 	}
 	
 	/**
@@ -90,11 +105,23 @@ public class ProductRestController {
 	 */
 	@ApiOperation(value = "diminuer le stock d'un produit", response = Product.class)
 	@PatchMapping("/{code}/{quantity}")
-	public ResponseEntity<Product> productDelivery(
+	public Product productDelivery(
 				@ApiParam(value = "code du produit à diminuer le stock", required = true) @PathVariable("code") int productCode, 
 				@ApiParam(value = "Quantité à diminuer dans le stock", required = true) @PathVariable("quantity") int quantity){
 		
 		//Appel du service de livraison
-		return ResponseEntity.ok(productService.productDelivery(productCode, quantity));
+		return productService.productDelivery(productCode, quantity);
+	}
+	
+	/**
+	 * Point Rest d'obtention de tous les produits de la BD
+	 * @return
+	 */
+	@ApiOperation(value = "Rechercher tous les produits")
+	@GetMapping()
+	public List<ProductDto> getAllProducts(){
+		
+		//On retourne la liste en appelant le service d'obtention des produits
+		return productService.getProducts();
 	}
 }

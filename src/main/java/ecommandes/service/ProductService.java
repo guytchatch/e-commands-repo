@@ -1,5 +1,8 @@
 package ecommandes.service;
 
+import java.util.List;
+import java.util.Set;
+
 import ecommandes.domain.Product;
 import ecommandes.domain.ProductStock;
 
@@ -39,4 +42,18 @@ public interface ProductService {
 	 * @throws Exception Stock insuffisant
 	 */
 	public Product productDelivery(Integer productCode, Integer quantity);
+	
+	/**
+	 * Liste de tous les produits
+	 * @return
+	 */
+	public List<ProductDto> getProducts();
+	
+	/**
+	 * Obtenir un produit à partir de son identifiant
+	 * @param code code du produit
+	 * @return produit
+	 */
+	public Product getProduct(Integer code);
+
 }

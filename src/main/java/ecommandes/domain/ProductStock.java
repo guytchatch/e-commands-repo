@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
 import org.joda.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
 
 /**
  * Classe représentant un stock de produits
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @ApiModel(description = "Tous les détails du stock (ProductStock) ")
 public final class ProductStock {
-
+	
 	//Code du stock
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,15 +43,21 @@ public final class ProductStock {
 	
 	//Date de livraison du stock
 	// Will be mapped as DATETIME (on MySQL)
-	@JsonDeserialize(using=LocalDateDeserializer.class)
-	@JsonSerialize(using=LocalDateSerializer.class)
+	//@JsonDeserialize(using=CustomDateDeserializer.class)
+	//@JsonSerialize(using=CustomDateSerializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     @ApiModelProperty(notes = "Date de livraison, générée par la BD", hidden=true, required=false)
 	private LocalDate deliveryDate;
 	
 	//Date de péremption des produits
 	// Will be mapped as DATE (on MySQL), i.e. only date without timestamp
-	@JsonDeserialize(using=LocalDateDeserializer.class)
-	@JsonSerialize(using=LocalDateSerializer.class)
+	//@JsonDeserialize(using=CustomDateDeserializer.class)
+	//@JsonSerialize(using=CustomDateSerializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
     @ApiModelProperty(notes = "Date de péremption du produit", example="2020-05-18")
 	private final LocalDate expirationDate;
 	
@@ -94,6 +101,7 @@ public final class ProductStock {
 				",quality:"+quality
 				+"}";
 	 }*/
+	 
 	 /**
 	  * Renvoie un code de hachage en fonction de la date d'expiration d'un produit
 	  */

@@ -8,5 +8,6 @@ import ecommandes.domain.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
+	public Product findByCode(Integer code);
 	
 }

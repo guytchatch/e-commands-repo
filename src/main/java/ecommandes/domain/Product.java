@@ -48,7 +48,7 @@ public final class Product{
 	private final Integer maxQuantity;
 	
 	//Liste des stock d'un produit
-	@OneToMany(/* mappedBy="product", */fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(/* mappedBy="product", */fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @ApiModelProperty(notes = "Liste des stocks",hidden=true )
 	private Set<ProductStock> productStockList = new LinkedHashSet<ProductStock>();
 	
